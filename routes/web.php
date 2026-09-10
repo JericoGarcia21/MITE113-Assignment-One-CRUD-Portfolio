@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\PortfolioDetailController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('portfolio-details.index');
+    return redirect()->route('students.index');
 });
 
-Route::resource('portfolio-details', PortfolioDetailController::class);
+Route::resource('students', StudentController::class);
+Route::resource('courses', CourseController::class);
