@@ -29,13 +29,19 @@
                         </div>
                         <div class="d-flex flex-wrap align-items-start gap-2 flex-shrink-0">
                             <a href="{{ route('students.show', $student) }}" class="btn btn-sm btn-outline-primary">View</a>
-                            <a href="{{ route('students.edit', $student) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                            <form method="POST" action="{{ route('students.destroy', $student) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('Delete this student?')">Delete</button>
-                            </form>
+
+                            @can('update', $student)
+                                <a href="{{ route('students.edit', $student) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            @endcan
+
+                            @can('delete', $student)
+                                <form method="POST" action="{{ route('students.destroy', $student) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Delete this student?')">Delete</button>
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </div>

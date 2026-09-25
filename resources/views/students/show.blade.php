@@ -7,7 +7,9 @@
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('students.index') }}" class="btn btn-outline-secondary">Back</a>
-            <a href="{{ route('students.edit', $student) }}" class="btn btn-primary">Edit</a>
+            @can('update', $student)
+                <a href="{{ route('students.edit', $student) }}" class="btn btn-primary">Edit</a>
+            @endcan
         </div>
     </div>
 

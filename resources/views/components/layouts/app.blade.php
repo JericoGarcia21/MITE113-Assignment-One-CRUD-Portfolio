@@ -9,12 +9,12 @@
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
             <div class="container">
-                <a class="navbar-brand fw-bold" href="{{ route('students.index') }}"></a>
+                <a class="navbar-brand fw-bold" href="{{ route('students.index') }}">Student Manager</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navMenu">
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('students.*') ? 'active fw-semibold' : '' }}"
                                href="{{ route('students.index') }}">Students</a>
@@ -23,6 +23,27 @@
                             <a class="nav-link {{ request()->routeIs('courses.*') ? 'active fw-semibold' : '' }}"
                                href="{{ route('courses.index') }}">Courses</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @auth
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    {{ Auth::user()->name }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">Sign out</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">Sign in</a>
+                            </li>
+                        @endauth
                     </ul>
                 </div>
             </div>

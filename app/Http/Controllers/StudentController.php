@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class StudentController extends Controller
@@ -30,7 +31,10 @@ class StudentController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $student = Student::create($this->validatedData($request));
+        $data = $this->validatedData($request);
+        $data['user_id'] = Auth::id();
+
+        $student = Student::create($data);
 
         return redirect()
             ->route('students.show', $student)
@@ -48,6 +52,8 @@ class StudentController extends Controller
 
     public function edit(Student $student): View
     {
+        $this->authorize('update', $student);
+
         $courses = Course::orderBy('name')->get();
 
         return view('students.edit', [
@@ -58,6 +64,8 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student): RedirectResponse
     {
+        $this->authorize('update', $student);
+
         $student->update($this->validatedData($request));
 
         return redirect()
@@ -67,6 +75,8 @@ class StudentController extends Controller
 
     public function destroy(Student $student): RedirectResponse
     {
+        $this->authorize('delete', $student);
+
         $student->delete();
 
         return redirect()
